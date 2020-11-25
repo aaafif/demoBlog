@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Article;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
 {
@@ -15,11 +20,17 @@ class BlogController extends AbstractController
      * @Route("/blog", name="blog")
      */
 
-    public function index(): Response
+    public function index(ArticleRepository $repo): Response
     {
+        //$repo = $this->getDoctrine()->getRepository(Article::class);
+        // dump($repo);
+        
+        $articles = $repo->findAll();
+        dump($articles);
+
         return $this->render('blog/index.html.twig', 
         [
-            'controller_name' => 'BlogController',
+        'articles' => $articles
         ]);
     }
 
@@ -34,17 +45,47 @@ class BlogController extends AbstractController
             'age' => 25
         ]);
     }
-
     /**
-     * @Route("/blog/12", name="blog_show")
+     * @Route("/blog/new", name="blog_create")
      */
-    public function show(): Response
+
+    public function  create(Request $request, EntityManagerInterface $manager)
     {
-        return $this->render('blog/show.html.twig');
+        dump($request);
+
+        if($request->request->count() > 0)
+        {
+            $article = new Article;
+            $article->setTitle($request->request->get('title'))
+                    ->setContent($request->request->get('content'))
+                    ->setImage($request->request->get('image'))
+                    ->setCreatedAt(new \DateTime());
+                    
+            $manager->persist($article);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', [
+                'id' => $article->getId()
+            ]);
+        }
+
+
+        return $this->render('blog/create.html.twig');
     }
 
+    /**
+     * @Route("/blog/{id}", name="blog_show")
+     */
+    public function show(Article $article ): Response
+    { 
+        //$repo = $this->getDoctrine()->getRepository(Article::class);
 
+       // $article = $repo->find($id);
+        dump($article);
 
+        return $this->render('blog/show.html.twig', [
+            'article' => $article
+        ]);
+    }
 
-    
 }
