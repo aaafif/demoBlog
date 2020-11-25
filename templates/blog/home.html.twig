@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <h1 class="display-4 text-center my-4">{{ title }}</h1>
+
+    {% if age > 18 %}
+        <p>Vous etes majeur </p>
+        
+    {% else %}
+        <p>Vous etes mineur</p>
+
+    {% endif %}
+
+{% endblock %}
+
