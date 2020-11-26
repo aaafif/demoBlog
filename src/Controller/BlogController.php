@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -34,6 +36,21 @@ class BlogController extends AbstractController
         ]);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @Route("/", name="home")
      */
@@ -45,33 +62,87 @@ class BlogController extends AbstractController
             'age' => 25
         ]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @Route("/blog/new", name="blog_create")
+     * @Route("/blog/{id}/edit", name="blog_edit")
      */
 
-    public function  create(Request $request, EntityManagerInterface $manager)
+    public function  form(Article $article = null, Request $request, EntityManagerInterface $manager)
     {
         dump($request);
 
-        if($request->request->count() > 0)
-        {
-            $article = new Article;
-            $article->setTitle($request->request->get('title'))
-                    ->setContent($request->request->get('content'))
-                    ->setImage($request->request->get('image'))
-                    ->setCreatedAt(new \DateTime());
+        // if($request->request->count() > 0)
+        // {
+        //     $article = new Article;
+        //     $article->setTitle($request->request->get('title'))
+        //             ->setContent($request->request->get('content'))
+        //             ->setImage($request->request->get('image'))
+        //             ->setCreatedAt(new \DateTime());
                     
-            $manager->persist($article);
-            $manager->flush();
+        //     $manager->persist($article);
+        //     $manager->flush();
 
-            return $this->redirectToRoute('blog_show', [
+        //     return $this->redirectToRoute('blog_show', [
+        //         'id' => $article->getId()
+        //     ]);
+        // }
+        if(!$article){
+            $article = new Article;            
+        }
+
+        // $form = $this->createFormBuilder($article)
+        //             ->add('title')
+        //             ->add('content')
+        //             ->add('image')
+        //             ->getForm();
+        
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        dump($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            if(!$article->getId())
+            {
+                $article->setCreatedAt(new\DateTime());
+            }
+
+            $article->setCreatedAt(new \DateTime());
+
+            $manager->persist($article);
+            $manager->flush(); 
+
+            return $this->redirectToRoute('blog_show' , [
                 'id' => $article->getId()
             ]);
         }
 
-
-        return $this->render('blog/create.html.twig');
+        return $this->render('blog/create.html.twig' , [
+            'formArticle'   => $form->createView(),
+            'editMode'      => $article->getId()
+        ]);
     }
+
+
+
+
+
+
+
 
     /**
      * @Route("/blog/{id}", name="blog_show")
