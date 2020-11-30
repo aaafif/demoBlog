@@ -28,12 +28,15 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ path('blog_create') }}">Ajouter un article</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('security_registration') }}">Créer votre compte</a>
+                </li>
                 <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catégories</a>
+                <a class="nav-link dropdown-toggle" href="{{ path('blog') }}" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catégories</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown04">
-                    <a class="dropdown-item" href="">Catégorie 1</a>
-                    <a class="dropdown-item" href="">Catégorie 2</a>
-                    <a class="dropdown-item" href="">Catégorie 3</a>
+                    <a class="dropdown-item" href="{{ path('blog') }}">Film</a>
+                    <a class="dropdown-item" href="{{ path('blog') }}">Serie</a>
+                    <a class="dropdown-item" href="{{ path('blog') }}">Documentaire</a>
                 </div>
                 </li>
             </ul>
