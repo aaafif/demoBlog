@@ -25,10 +25,11 @@
     {# {{ form(formArticle) }} #}
     
 
-    {{ form_start(formArticle,              {'attr': {'class': 'col-md-9 mx-auto'}              }) }}
-        {{ form_row(formArticle.title,      {'attr': {'placeholder': "Titre de l'article"}      }) }}
-        {{ form_row(formArticle.content,    {'attr': {'placeholder': "Contenu de l'article"}    }) }}
-        {{ form_row(formArticle.image,      {'attr': {'placeholder': "URL de l'image"}          }) }}
+    {{ form_start(formArticle,              {'attr': {'class': 'col-md-9 mx-auto'}                                                           }) }}
+        {{ form_row(formArticle.title,      {'attr': {'placeholder': "Titre de l'article"},               'label': "Titre de l'article"      }) }}
+        {{ form_row(formArticle.category,   {                                                             'label': "Catégorie"               }) }}
+        {{ form_row(formArticle.content,    {'attr': {'placeholder': "Contenu de l'article"},             'label': "Contenu de l'article"    }) }}
+        {{ form_row(formArticle.image,      {'attr': {'placeholder': "URL de l'image"},                   'label': "Image de l'article"      }) }}
         <button type="submit" class="btn btn-primary">
         {% if editMode %}   Enregistrer les modification
         {% else %}          Ajouter un article
