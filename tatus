@@ -1,0 +1,17 @@
+[33mbf6ff69[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: pull origin master: Fast-forward
+[33mbd9dcb4[m HEAD@{1}: checkout: moving from dev_30.11.20 to master
+[33m7cfa0cb[m[33m ([m[1;31morigin/dev_30.11.20[m[33m)[m HEAD@{2}: commit: dev entité + catégorie + comment + inscription
+[33mbd9dcb4[m HEAD@{3}: checkout: moving from master to dev_30.11.20
+[33mbd9dcb4[m HEAD@{4}: pull origin master: Fast-forward
+[33mf1c9236[m HEAD@{5}: checkout: moving from dev_26.11.20 to master
+[33mf3e192f[m[33m ([m[1;31morigin/dev_26.11.20[m[33m)[m HEAD@{6}: commit: dev formulaire + insert/modif BDD
+[33mf1c9236[m HEAD@{7}: checkout: moving from master to dev_26.11.20
+[33mf1c9236[m HEAD@{8}: pull origin master: Fast-forward
+[33m6d26bcd[m HEAD@{9}: checkout: moving from dev_25.11.20 to master
+[33mabaeb0d[m[33m ([m[1;31morigin/dev_25.11.20[m[33m)[m HEAD@{10}: commit: dev controller + BDD + formulaire
+[33m6d26bcd[m HEAD@{11}: checkout: moving from master to dev_25.11.20
+[33m6d26bcd[m HEAD@{12}: pull origin master: Fast-forward
+[33m5f269a6[m HEAD@{13}: checkout: moving from dev_241120 to master
+[33mc99899d[m[33m ([m[1;31morigin/dev_241120[m[33m)[m HEAD@{14}: commit: developpement controller + vue html
+[33m5f269a6[m HEAD@{15}: checkout: moving from master to dev_241120
+[33m5f269a6[m HEAD@{16}: commit (initial): premi_re version Symfony
