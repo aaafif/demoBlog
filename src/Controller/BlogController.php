@@ -156,11 +156,18 @@ class BlogController extends AbstractController
         $comment = new Comment;
         dump($request);
 
+        $user = $this->getuser();
+        dump($user);
+
         $formComment = $this->createForm(CommentType::class, $comment);
         $formComment->handleRequest($request);
 
         if($formComment->isSubmitted() && $formComment->isValid())
         {
+            $username = $this->getuser()->getUsername();
+            dump($username);
+
+            $comment->setAuthor($username);
             $comment->setCreatedAt(new \DateTime);
             $comment->setArticle($article);
 
