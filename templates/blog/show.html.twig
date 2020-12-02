@@ -5,6 +5,7 @@
 
 
 {% block body %}
+	<div class="container">
 
 	<h1 class="display-4 text-center my-4">{{article.title}}</h1>
 
@@ -25,28 +26,36 @@
 					</strong>
 				</small>
 
+					{% if is_granted('ROLE_ADMIN') %}
 				<small>
 					<a class="btn btn-dark ml-2 mb-2" href="{{ path('blog_edit', {'id': article.id}) }}">
 						EDIT
 					</a>
 				</small>
+					{% endif %}
 			</div>
 		</div>
 	</div>
 
-	<h4 class="my-4">Donner votre avis...</h4>
+	
+	{% if is_granted('ROLE_USER') %}
 
-	{% for message in app.flashes('success') %}
-		<div class="col-md-5 bg-success p-3 rounded mx-auto text-center text-white">
-			{{ message }}
-		</div>
-	{% endfor %}
+		{% for message in app.flashes('success') %}
+			<div class="col-md-5 bg-success p-3 rounded mx-auto text-center text-white">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-	{{ form_start(formComment) }}
-	{{ form_row(formComment.author,                {'label': "Nom d'utilisateur"             }) }}
-	{{ form_row(formComment.content,               {'label': "Saisir votre commentaire"      }) }}
-	<button type="submit" class="btn btn-dark">Poster un commentaire</button>
-	{{ form_end(formComment) }}
+
+		<h4 class="my-4">Donner votre avis...</h4>
+
+		{{ form_start(formComment) }}
+			{# {{ form_row(formComment.author,                {'label': "Nom d'utilisateur"             }) }} #}
+			{{ form_row(formComment.content,               {'label': "Saisir votre commentaire"      }) }}
+			<button type="submit" class="btn btn-dark">Poster un commentaire</button>
+		{{ form_end(formComment) }}
+
+	{% endif %}
 
 	<h4 class="my-4">COMMENTAIRE</h4>
 
@@ -68,5 +77,5 @@
 			</div>
 		{% endfor %}
 	</div>
-
+</div>
 {% endblock %}
