@@ -8,15 +8,22 @@
 		}
 	</style>
 
-    <h1 class="display-4 text-center my-4"> Création d'un nouvel article </h1>
+
+        <h1 class="display-4 text-center my-4">
+        {% if editMode %}   Modification de l'article
+        {% else %}       Création d'un nouvel article 
+        {% endif %}</button>
+    </h1>
+    <div class="display-4 text-center  my-4"><a href="{{ path('admin_articles') }}" class="btn btn-dark btn-lg">Retour</a></div>
+
 
     {{ form_start(formArticle,              {'attr': {'class': 'col-md-4 mx-auto'}                                                           }) }}
         {{ form_row(formArticle.title,      {'attr': {'placeholder': "Titre de l'article"},               'label': "Titre de l'article"      }) }}
         {{ form_row(formArticle.category,   {                                                             'label': "Catégorie"               }) }}
-        {{ form_row(formArticle.content,    {'attr': {'placeholder': "Contenu de l'article"},             'label': "Contenu de l'article"    }) }}
+        {{ form_row(formArticle.content,    {'attr': {'placeholder': "Contenu de l'article", 'rows':15},             'label': "Contenu de l'article"    }) }}
         {{ form_row(formArticle.image,      {'attr': {'placeholder': "URL de l'image"},                   'label': "Image de l'article"      }) }}
         <button type="submit" class="btn btn-primary">
-        {% if editMode %}   Enregistrer les modification
+        {% if editMode %}   Enregistrer les modifications
         {% else %}          Ajouter un article
         {% endif %}</button>
     {{ form_end(formArticle) }}
