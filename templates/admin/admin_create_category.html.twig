@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<style>
+		body {
+			background-color: #222;
+			color: white;
+		}
+	</style>
+
+    <h1 class="display-4 text-center my-4">
+        {% if editMode %}   Modification de la catégorie
+        {% else %}       Création d'une nouvel catégorie 
+        {% endif %}</button>
+    </h1>
+    <div class="display-4 text-center  my-4"><a href="{{ path('admin_categories') }}" class="btn btn-dark btn-lg">Retour</a></div>
+
+
+
+    {{ form_start(formCategory,              {'attr': {'class': 'col-md-4 mx-auto'}                                                           }) }}
+        {{ form_row(formCategory.title,      {'attr': {'placeholder': "Titre de la categorie"},               'label': "Titre de la categorie"      }) }}
+        {{ form_row(formCategory.description, {'attr': {'placeholder': "Contenu de la categorie", 'rows':15},            'label': "Contenu de la categorie"    }) }}
+        <button type="submit" class="btn btn-primary">
+        {% if editMode %}   Enregistrer les modification
+        {% else %}          Ajouter une categorie
+        {% endif %}</button>
+    {{ form_end(formCategory) }}
+
+{% endblock %}

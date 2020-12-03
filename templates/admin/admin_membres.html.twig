@@ -7,34 +7,37 @@
 
 
 	<h1 class="display-4 text-center my-4">BackOffice | Gestion des membres</h1>
+	<div class="display-4 text-center  my-4"><a href="{{ path('admin_new_membre') }}" class="btn btn-dark btn-lg"> Nouveau membre </a></div>
 
-<table class="table table-striped table-dark table-bordered text-center">
-	<thead class="thead-inverse">
-		<tr>
-			<th class="bg-info"></th>
-			<th class="bg-info">Titre</th>
-			<th class="bg-info">Contenu</th>
-			<th class="bg-info">Image</th>
-			<th class="bg-info">Date</th>
-		</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td scope="row">A</td>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td scope="row">B</td>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>4</td>
-			</tr>
-		</tbody>
-</table>
+	{% for message in app.flashes('success') %}
+		<div class="bg-success text-white text-center col-md-4 mx-auto rounded p-3 m-4"> {{ message }} </div>
+	{% endfor %}
+
+		<table class="table table-striped table-bordered table-dark table-bordered text-center">
+			<thead class="thead-inverse">
+				<tr>{% for data in colonnes %}
+							<th class="bg-info">{{data|upper }}</th>
+				{% endfor %}
+							<th class="bg-info">EDIT</th>
+							<th class="bg-info">SUPPR</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for data in membres %}
+					<tr>
+						
+								<td class="align-middle">{{ data.id }}</td>
+								<td class="align-middle">{{ data.email }}</td>
+								<td class="align-middle">{{ data.username}}</td>
+								<td class="align-middle">{{ data.password }}</td>
+								<td class="align-middle">{{ data.roles }}</td>
+
+								<td class="align-middle"><a href="{{ path('admin_edit_membre', {'id': data.id}) }}"><i class="far fa-edit text-warning"></i></a></td>
+								<td class="align-middle"><a onclick="return(confirm('Voulez vous vraiment supprimer cet membre ?'))" href="{{ path('admin_delete_membre', {'id': data.id}) }}"><i class="fas fa-trash-alt text-danger"></i></a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 
 {% endblock %}
