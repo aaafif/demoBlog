@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<style>
+		body {
+			background-color: #222;
+			color: white;
+		}
+	</style>
+
+    <h1 class="display-4 text-center my-4">Modification commentaires</h1>
+    <div class="display-4 text-center  my-4"><a href="{{ path('admin_commentaires') }}" class="btn btn-dark btn-lg">Retour</a></div>
+
+
+
+    {{ form_start(formCommentaire,              {'attr': {'class': 'col-md-4 mx-auto'}                                   }) }}
+        {{ form_row(formCommentaire.author,     {'attr': {'placeholder': "Auteur"},               'label': "Auteur"      }) }}
+        {{ form_row(formCommentaire.article)                                                                                }}
+        {{ form_row(formCommentaire.content,    {'attr': {'placeholder': "Contenu du commentaire", 'rows':15},            'label': "Contenu du commentaire"    }) }}
+        <button type="submit" class="btn btn-primary">Enregistrer les modification</button>
+    {{ form_end(formCommentaire) }}
+
+{% endblock %}
+

@@ -4,14 +4,18 @@ namespace App\Controller;
 
 
 use App\Entity\User;
-use App\Entity\Article;
-use App\Entity\Category;
 use App\Form\UserType;
+use App\Entity\Article;
+use App\Entity\Comment;
+use App\Entity\Category;
+use App\Form\AdminCommentType;
+use App\Form\AdminRegistrationType;
 use App\Form\ArticleType;
 use App\Form\CategoryType;
-use App\Repository\ArticleRepository;
-use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
+use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -153,7 +157,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_categories');
         }
 
-        return $this->render('admin/admin_create_category.html.twig', [
+        return $this->render('admin/admin_create_categorie.html.twig', [
             'formCategory'  => $form->createView(),
             'editMode'      => $category->getId()
         ]);
@@ -210,38 +214,29 @@ class AdminController extends AbstractController
         ]);
     }
 
-        /**
-     * @Route("/admin/membres/new", name="admin_new_membre")
+    /**
      * @Route("/admin/membres/{id}/edit", name="admin_edit_membre")
      */
     public function adminFormMembres(EntityManagerInterface $manager, User $user, Request $request): Response
     {
-        if (!$user) {
-            $user = new user;
-        }
-        $form = $this->createForm(MembreType::class, $user);
+
+        $form = $this->createForm(AdminRegistrationType::class, $user);
         $form->handleRequest($request);
 
         dump($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$user->getId()) {
-                $this->addFlash('success', "La membre a bien été enregistré");
-            }
 
-            else{
-                $this->addFlash('success', "La membre a bien été modifié");
-            }
-
+            $this->addFlash('success', "Le membre a bien été modifié");
+            
             $manager->persist($user);
             $manager->flush();
 
             return $this->redirectToRoute('admin_membres');
         }
 
-        return $this->render('admin/admin_create_membre.html.twig', [
-            'formmembre'  => $form->createView(),
-            'editMode'      => $user->getId()
+        return $this->render('admin/admin_edit_membre.html.twig', [
+            'formMembre'  => $form->createView()
         ]);
     }
 
@@ -253,7 +248,7 @@ class AdminController extends AbstractController
         $manager->remove($user);
         $manager->flush();
 
-        $this->addFlash('success', "La membre a bien été supprimé");
+        $this->addFlash('success', "L'utilisateur a bien été supprimé");
 
         return $this->redirectToRoute('admin_membres');
     }
@@ -277,15 +272,59 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/commentaires", name="admin_commentaires")
      */
-    public function adminCommentaires(EntityManagerInterface $manager): Response
+    public function adminCommentaires(EntityManagerInterface $manager, CommentRepository $repo): Response
     {
 
-        $colonnes = $manager->getClassMetadata(Atricle::class)->getFieldNames();
+        $colonnes = $manager->getClassMetadata(Comment::class)->getFieldNames();
+        $commentaires =$repo->findAll();
 
         dump($colonnes);
 
-        return $this->render('admin/admin_commentaires.html.twig');
+        return $this->render('admin/admin_commentaires.html.twig', [
+            'colonnes' => $colonnes,
+            'commentaires'  => $commentaires
+        ]);
     }
+
+    /**
+     * @Route("/admin/commentaires/{id}/edit", name="admin_edit_commentaire")
+     */
+    public function adminFormCommentaires(EntityManagerInterface $manager, Comment $comment, Request $request): Response
+    {
+
+        $form = $this->createForm(AdminCommentType::class, $comment);
+        $form->handleRequest($request);
+
+        dump($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->addFlash('success', "Le commentaire a bien été modifié");
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('admin_commentaires');
+        }
+
+        return $this->render('admin/admin_edit_commentaire.html.twig', [
+            'formCommentaire'  => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/{id}/delete-commentaire", name="admin_delete_commentaire")
+     */
+    public function deletecommentaire(EntityManagerInterface $manager, Comment $comment)
+    {
+        $manager->remove($comment);
+        $manager->flush();
+
+        $this->addFlash('success', "La commentaire a bien été supprimé");
+
+        return $this->redirectToRoute('admin_commentaires');
+    }
+
 
 
 

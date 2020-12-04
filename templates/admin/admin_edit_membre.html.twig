@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<style>
+		body {
+			background-color: #222;
+			color: white;
+		}
+	</style>
+    <div class="container">
+        <h1 class="display-4 text-center my-4"> Modification du membre </h1>
+        <div class="display-4 text-center  my-4"><a href="{{ path('admin_membres') }}" class="btn btn-dark btn-lg">Retour</a></div>
+
+    </div>
+
+
+    {{ form_start(formMembre,                {'attr': {'class': 'col-md-4 mx-auto'}                                                           }) }}
+        {{ form_row(formMembre.email,        {'attr': {'placeholder': "Email"},                         'label': "Email"                      }) }}
+        {{ form_row(formMembre.username,     {'attr': {'placeholder': "Nom d'utilisateur"},             'label': "Nom d'utilisateur"          }) }}
+        {{ form_row(formMembre.roles,        {'label': false }                                                                                 ) }}     
+        <button type="submit" class="btn btn-primary">Enregistrer les modification</button>
+    {{ form_end(formMembre) }}
+
+
+{% endblock %}

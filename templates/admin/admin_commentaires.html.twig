@@ -8,33 +8,47 @@
 
 	<h1 class="display-4 text-center my-4">BackOffice | Gestion des commentaires</h1>
 
+	{% for message in app.flashes('success') %}
+		<div class="bg-success text-white text-center col-md-4 mx-auto rounded p-3 m-4"> {{ message }} </div>
+	{% endfor %}
 
-<table class="table table-striped table-dark table-bordered text-center">
-	<thead class="thead-inverse">
-		<tr>
-			<th class="bg-info"></th>
-			<th class="bg-info">Titre</th>
-			<th class="bg-info">Contenu</th>
-			<th class="bg-info">Image</th>
-			<th class="bg-info">Date</th>
-		</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td scope="row">A</td>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td scope="row">B</td>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>4</td>
-			</tr>
-		</tbody>
-</table>
+	{% for message in app.flashes('warning') %}
+		<div class="bg-warning text-dark text-center col-md-4 mx-auto rounded p-3 m-4"> {{ message }} </div>
+	{% endfor %}
+
+
+
+		<table class="table table-striped table-bordered table-dark table-bordered text-center">
+			<thead class="thead-inverse">
+				<tr>
+				{% for data in colonnes %}
+					{% if data == 'createdAt' %}
+					<th class="bg-info align-middle">data</th>
+
+					{% else %}
+					<th class="bg-info align-middle">{{data|upper }}</th>
+
+					{% endif %}
+				{% endfor %}
+							<th class="bg-info align-middle">TITRE ARTCILE</th>
+							<th class="bg-info align-middle">EDIT</th>
+							<th class="bg-info align-middle">SUPPR</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for data in commentaires %}
+					<tr>
+						<td class="align-middle">{{ data.id }}</td>
+						<td class="align-middle">{{ data.author }}</td>
+						<td class="align-middle">{{ data.content }}</td>
+						<td class="align-middle">{{ data.createdAt|date('d/m/Y à H:i:s') }}</td>
+						<td class="align-middle">{{ data.article.title }}</td>
+
+						<td class="align-middle"><a href="{{ path('admin_edit_commentaire', {'id': data.id}) }}"><i class="far fa-edit text-warning"></i></a></td>
+						<td class="align-middle"><a onclick="return(confirm('Voulez vous vraiment supprimer cet commentaire ?'))" href="{{ path('admin_delete_commentaire', {'id': data.id}) }}"><i class="fas fa-trash-alt text-danger"></i></a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 {% endblock %}
